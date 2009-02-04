@@ -1,4 +1,3 @@
-/*
 Every Line starts with:
 
 #define [START] = L MM/DD/YYYY - HH:mm:ss: 
@@ -45,12 +44,3 @@ enum weapon
 enum object
 {
 }
-
-class User
-{
-	string username;
-	string steamid;
-	string team;
-	int num;
-}
-*/
