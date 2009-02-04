@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -63,6 +64,10 @@ namespace tf2stats.Objects
             }
             set
             {
+                if (value != "Blue" || value != "Red")
+                {
+                    value = "Unassigned";
+                }
                 team = value;
             }
         }
@@ -84,6 +89,15 @@ namespace tf2stats.Objects
             {
                 number = value;
             }
+        }
+
+        /// <summary>
+        /// Convert instance to a string
+        /// </summary>
+        /// <returns>String representation of instatnce</returns>
+        public override string ToString()
+        {
+            return "\"" + username + "<" + number + "><" + steamid + "><" + team + ">\"";
         }
     }
 }

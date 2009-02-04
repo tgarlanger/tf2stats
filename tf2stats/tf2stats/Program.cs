@@ -104,6 +104,7 @@ namespace tf2stats
                         i++;
                         break;
                 }
+                
             }
         }
     }
