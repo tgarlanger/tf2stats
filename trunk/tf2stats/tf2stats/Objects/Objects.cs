@@ -12,6 +12,32 @@ namespace tf2stats.Objects
     class User
     {
         /// <summary>
+        /// Default Contructor
+        /// </summary>
+        public User()
+        {
+            username = "";
+            steamid = "";
+            team = "";
+            number = -1;
+        }
+
+        /// <summary>
+        /// Parameterized Constructor
+        /// </summary>
+        /// <param name="_username">User Name of the Player</param>
+        /// <param name="_steamid">Steam ID of the Player</param>
+        /// <param name="_team">Team of the Player</param>
+        /// <param name="num">Number of the Player</param>
+        public User(string _username, string _steamid, string _team, int num)
+        {
+            username = _username;
+            steamid = _steamid;
+            team = _team;
+            number = num;
+        }
+
+        /// <summary>
         /// User Name of the Player
         /// </summary>
         private string username;
