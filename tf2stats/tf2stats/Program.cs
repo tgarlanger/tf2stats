@@ -235,6 +235,10 @@ namespace tf2stats
                     tempteam += tempstr[l];
                 }
 
+                
+
+
+                /*
                 int index = Find(users, tempusername, SEARCH_VALUE.SEARCH_NAME);
 
                 if (index == -1)
@@ -256,6 +260,7 @@ namespace tf2stats
 
                     }
                 }
+                 * */
             }
         }// Main
     } // Program
