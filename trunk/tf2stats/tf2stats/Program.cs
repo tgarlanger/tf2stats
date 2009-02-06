@@ -7,6 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 
+/// MySQL namespaces
+using MySql.Data.MySqlClient;
+
 /// tf2stats namespaces
 using tf2stats.Objects;
 
@@ -49,62 +52,74 @@ namespace tf2stats
         {
             if (args.Length <= 1)
             {
-                Error(001);
+                //Error(001);
 
-                return;
+                //return;
             }
 
             StreamReader sr;
             StreamWriter sw = new StreamWriter("output.txt");
-
+            /*
             for (int i = 1; i < args.Length; i++)
             {
                 switch (args[i])
                 {
-                    case "-i":
-                        if (i + 1 == args.Length)
-                        {
-                            Error(001);
-                        }
-                        if (!IsValidPath(args[i + 1]))
-                        {
-                            Error(002);
-                        }
+                case "-i":
+                    if (i + 1 == args.Length)
+                    {
+                        Error(001);
+                    }
+                    if (!IsValidPath(args[i + 1]))
+                    {
+                        Error(002);
+                    }
 
-                        try
-                        {
-                            sr = new StreamReader(args[i + 1]);
-                        }
-                        catch (Exception e)
-                        {
-                            
-                        }
+                    try
+                    {
+                        sr = new StreamReader(args[i + 1]);
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
 
-                        i++;
-                        break;
-                    case "-o":
-                        if (i + 1 == args.Length)
-                        {
-                            Error(001);
-                        }
-                        if (!IsValidPath(args[i + 1]))
-                        {
-                            Error(002);
-                        }
+                    i++;
+                    break;
+                case "-o":
+                    if (i + 1 == args.Length)
+                    {
+                        Error(001);
+                    }
+                    if (!IsValidPath(args[i + 1]))
+                    {
+                        Error(002);
+                    }
 
-                        try
-                        {
-                            sw = new StreamWriter(args[i + 1]);
-                        }
-                        catch (Exception e)
-                        {
+                    try
+                    {
+                        sw = new StreamWriter(args[i + 1]);
+                    }
+                    catch (Exception e)
+                    {
 
-                        }
+                    }
 
-                        i++;
-                        break;
+                    i++;
+                    break;
                 }
-                
+            }
+            */
+            MySqlConnection con = new MySqlConnection();
+
+            con.ConnectionString = "Server=localhost;Database=tf2stats;Uid=root;Pwd=password;";
+
+            try
+            {
+                con.Open();
+            }
+            catch (MySqlException e)
+            {
+                Debug.Fail(e.ToString());
             }
         }
     }
