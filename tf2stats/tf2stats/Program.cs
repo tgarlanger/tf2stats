@@ -51,6 +51,9 @@ namespace tf2stats
                 case 002:
                     msg += "Invalid File Path!";
                     break;
+                case 003:
+                    msg += "Invaid Arguments!";
+                    break;
             }
 
             Debug.Fail(msg, errnum.ToString());
@@ -89,6 +92,35 @@ namespace tf2stats
             
 
             return -1;
+        }
+
+        /// <summary>
+        /// Gets a section of a string
+        /// </summary>
+        /// <param name="input">String to get a sub-string from</param>
+        /// <param name="start">Index in the input string to start at</param>
+        /// <param name="delim">Character to end the sub-string</param>
+        /// <returns>Sub-string from the input string</returns>
+        static string ReadTo(string input, int start, char delim)
+        {
+            string tempstr = "";
+
+            for (int i = start; i < input.Length; i++)
+            {
+                if (input[i] == delim)
+                {
+                    return tempstr;
+                }
+
+                tempstr += input[i];
+            }
+
+            return null;
+        }
+
+        static User ReadUser(string input, int start)
+        {
+            
         }
 
         /// <summary>
@@ -153,6 +185,15 @@ namespace tf2stats
 
                     i++;
                     break;
+                case "-d":
+                    if (i + 1 == args.Length)
+                    {
+                        Error(001);
+                    }
+                    if ( args[i] != "false" || args[i] != "true" )
+                    {
+                        Error(003);
+                    }
                 }
             }
             */
@@ -174,9 +215,11 @@ namespace tf2stats
             string tempsteamid;
             string tempteam;
             string tempint;
+            string tempcommand;
             int tempnumber;
             int i, j, k, l;
             int numplayers = 0;
+            int position = 0;
 
             User [] users = new User[36];
 
@@ -188,55 +231,54 @@ namespace tf2stats
                 tempsteamid = "";
                 tempteam = "";
                 tempint = "";
+                tempcommand = "";
 
                 if (tempstr[25] != '\"')
                 {
                     continue;
                 }
 
-                for (i = 26; i < tempstr.Length; i++)
-                {
-                    if (tempstr[i] == '<')
-                    {
-                        break;
-                    }
-                    
-                    tempusername += tempstr[i];
-                }
-                for (j = i + 1; j < tempstr.Length; j++)
-                {
-                    if (tempstr[j] == '>')
-                    {
-                        break;
-                    }
+                /// GET USER NAME
+                tempusername = ReadTo(tempstr, 26, '<');
 
-                    tempint += tempstr[j];
-                }
+                position = tempusername.Length + 26 + 1;
 
+                /// GET NUMBER
+                tempint = ReadTo(tempstr, position, '>');
+
+                /// Update read position
+                position += tempint.Length + 1 + 1;
+
+                /// CONVERT FROM STRING TO INTEGER
                 tempnumber = Convert.ToInt32(tempint);
 
-                for (k = j + 2; k < tempstr.Length; k++)
-                {
-                    if (tempstr[k] == '>')
-                    {
-                        break;
-                    }
+                /// GET STEAM ID
+                tempsteamid = ReadTo(tempstr, position, '>');
 
-                    tempsteamid += tempstr[k];
+                position += tempsteamid.Length + 1 + 1;
+
+                /// GET TEAM NAME
+                tempteam = ReadTo(tempstr, position, '>');
+
+                position += tempteam.Length + 1 + 1 + 1;
+
+                tempcommand = ReadTo(tempstr, position, ' ');
+
+                switch (tempcommand)
+                {
+                    case "say":
+                        continue;
+                        break;
+                    case "joined":
+                        position += tempcommand.Length + 1;
+                        string tempcommand2 = ReadTo(tempstr, position, ' ');
+                        position += tempcommand2.Length + 1 + 1;
+                        string tempteam2 = ReadTo(tempstr, position, '\"');
+                        Console.WriteLine(tempteam2);
+                        break;
                 }
 
-                for (l = k + 2; l < tempstr.Length; l++)
-                {
-                    if (tempstr[l] == '>')
-                    {
-                        break;
-                    }
-
-                    tempteam += tempstr[l];
-                }
-
-                
-
+                //Console.WriteLine("break!");
 
                 /*
                 int index = Find(users, tempusername, SEARCH_VALUE.SEARCH_NAME);
@@ -261,7 +303,10 @@ namespace tf2stats
                     }
                 }
                  * */
-            }
+            }// Read File
+
+            Console.WriteLine("DONE!!!!");
+
         }// Main
-    } // Program
+    }// Program
 }// Namespace
