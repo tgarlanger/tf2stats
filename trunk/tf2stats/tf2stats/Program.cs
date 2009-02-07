@@ -139,10 +139,23 @@ namespace tf2stats
                         break;
                     case "joined":
                         position += tempcommand.Length + 1;
+
                         string tempcommand2 = Utils.ReadTo(tempstr, position, ' ');
+
                         position += tempcommand2.Length + 1 + 1;
+
                         string tempteam2 = Utils.ReadTo(tempstr, position, '\"');
+
                         //Console.WriteLine(tempteam2);
+
+                        break;
+                    case "killed":
+                        position += tempcommand.Length + 1;
+
+                        if (Utils.Find(users, tempuser.UserName, SEARCH_VALUE.SEARCH_NAME) == -1)
+                        {
+
+                        }
                         break;
                 }
 

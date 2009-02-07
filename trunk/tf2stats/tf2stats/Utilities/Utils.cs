@@ -80,6 +80,26 @@ namespace tf2stats.Utilities
             return -1;
         }
 
+        public static int FindOrCreateUser(User[] users, User user, int numplayers)
+        {
+            int index = Find(users,user.UserName,SEARCH_VALUE.SEARCH_NAME);
+
+            if (index == -1)
+            {
+                if (user.SteamID != "STEAM_ID_PENDING")
+                {
+                    index = Find(users, user.SteamID, SEARCH_VALUE.SEARCH_ID);
+
+                    if (index == -1)
+                    {
+                        users[numplayers] = user;
+
+                        return numplayers;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Gets a section of a string
         /// </summary>
@@ -112,7 +132,6 @@ namespace tf2stats.Utilities
         /// <returns>User object read from String.</returns>
         public static User ReadUser(string input, int start)
         {
-            string tempstr;
             string tempusername;
             string tempsteamid;
             string tempteam;
