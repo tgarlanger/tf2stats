@@ -125,6 +125,34 @@ namespace tf2stats.Objects
             }
         }
 
+        private int kills;
+
+        public int Kills
+        {
+            get
+            {
+                return kills;
+            }
+            set
+            {
+                kills = value;
+            }
+        }
+
+        private int deaths;
+
+        public int Deaths
+        {
+            get
+            {
+                return deaths;
+            }
+            set
+            {
+                deaths = value;
+            }
+        }
+
         /// <summary>
         /// Convert instance to a string
         /// </summary>
