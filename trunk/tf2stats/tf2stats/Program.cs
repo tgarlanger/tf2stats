@@ -12,117 +12,12 @@ using MySql.Data.MySqlClient;
 
 /// tf2stats namespaces
 using tf2stats.Objects;
+using tf2stats.Utilities;
 
 namespace tf2stats
 {
     class Program
     {
-        /// <summary>
-        /// Enum for Determing which field to search on
-        /// </summary>
-        enum SEARCH_VALUE
-        {
-            SEARCH_ID, SEARCH_NAME
-        }
-
-        /// <summary>  
-        /// Gets whether the specified path is a valid absolute file path.  
-        /// </summary>  
-        /// <param name="path">Any path. OK if null or empty.</param>  
-        static public bool IsValidPath(string path)
-        {
-            Regex r = new Regex(@"^(([a-zA-Z]\:)|(\\))(\\{1}|((\\{1})[^\\]([^/:*?<>""|]*))+)$");
-            return r.IsMatch(path);
-        }
-
-        /// <summary>
-        /// Accepts error code and displays appropriate message.
-        /// </summary>
-        /// <param name="errnum">Number of error to display.</param>
-        static void Error(int errnum)
-        {
-            string msg = "Error " + errnum.ToString() + ":  ";
-
-            switch (errnum)
-            {
-                case 001:
-                    msg += "Too Few Arguments!";
-                    break;
-                case 002:
-                    msg += "Invalid File Path!";
-                    break;
-                case 003:
-                    msg += "Invaid Arguments!";
-                    break;
-            }
-
-            Debug.Fail(msg, errnum.ToString());
-        }
-
-        /// <summary>
-        /// Finds a User by Steam ID
-        /// </summary>
-        /// <param name="users">List of Users</param>
-        /// <param name="steamid">Steam ID to Find</param>
-        /// <returns>Index of Steam ID, -1 if Not Found</returns>
-        static int Find(User[] users, string searchstr, SEARCH_VALUE sv)
-        {
-            switch (sv)
-            {
-                case SEARCH_VALUE.SEARCH_NAME:
-                    for (int i = 0; i < users.Length; i++)
-                    {
-                        if (users[i].UserName == searchstr)
-                        {
-                            return i;
-                        }
-                    }
-                break;
-                case SEARCH_VALUE.SEARCH_ID:
-                default:
-                    for ( int i = 0; i < users.Length; i++ )
-                    {
-                        if (users[i].SteamID == searchstr)
-                        {
-                            return i;
-                        }
-                    }
-                    break;
-            }
-            
-
-            return -1;
-        }
-
-        /// <summary>
-        /// Gets a section of a string
-        /// </summary>
-        /// <param name="input">String to get a sub-string from</param>
-        /// <param name="start">Index in the input string to start at</param>
-        /// <param name="delim">Character to end the sub-string</param>
-        /// <returns>Sub-string from the input string</returns>
-        static string ReadTo(string input, int start, char delim)
-        {
-            string tempstr = "";
-
-            for (int i = start; i < input.Length; i++)
-            {
-                if (input[i] == delim)
-                {
-                    return tempstr;
-                }
-
-                tempstr += input[i];
-            }
-
-            return null;
-        }
-
-        static User ReadUser(string input, int start)
-        {
-            
-        }
-
         /// <summary>
         /// Main Entry Point of the program
         /// </summary>
@@ -138,6 +33,8 @@ namespace tf2stats
 
             StreamReader sr = new StreamReader("..\\..\\Logs\\CTF_example.log");
             StreamWriter sw = new StreamWriter("output.txt");
+
+            #region HANDLE_ARGS
             /*
             for (int i = 1; i < args.Length; i++)
             {
@@ -197,6 +94,9 @@ namespace tf2stats
                 }
             }
             */
+
+            #endregion HANDLE_ARGS
+
             MySqlConnection con = new MySqlConnection();
 
             con.ConnectionString = "Server=localhost;Database=tf2stats;Uid=root;Pwd=password;";
@@ -211,13 +111,7 @@ namespace tf2stats
             }
 
             string tempstr;
-            string tempusername;
-            string tempsteamid;
-            string tempteam;
-            string tempint;
             string tempcommand;
-            int tempnumber;
-            int i, j, k, l;
             int numplayers = 0;
             int position = 0;
 
@@ -227,10 +121,6 @@ namespace tf2stats
             {
                 tempstr = sr.ReadLine();
 
-                tempusername = "";
-                tempsteamid = "";
-                tempteam = "";
-                tempint = "";
                 tempcommand = "";
 
                 if (tempstr[25] != '\"')
@@ -238,31 +128,9 @@ namespace tf2stats
                     continue;
                 }
 
-                /// GET USER NAME
-                tempusername = ReadTo(tempstr, 26, '<');
+                position = 26;
 
-                position = tempusername.Length + 26 + 1;
-
-                /// GET NUMBER
-                tempint = ReadTo(tempstr, position, '>');
-
-                /// Update read position
-                position += tempint.Length + 1 + 1;
-
-                /// CONVERT FROM STRING TO INTEGER
-                tempnumber = Convert.ToInt32(tempint);
-
-                /// GET STEAM ID
-                tempsteamid = ReadTo(tempstr, position, '>');
-
-                position += tempsteamid.Length + 1 + 1;
-
-                /// GET TEAM NAME
-                tempteam = ReadTo(tempstr, position, '>');
-
-                position += tempteam.Length + 1 + 1 + 1;
-
-                tempcommand = ReadTo(tempstr, position, ' ');
+                User tempuser = Utils.ReadUser(tempstr, position);
 
                 switch (tempcommand)
                 {
@@ -271,10 +139,10 @@ namespace tf2stats
                         break;
                     case "joined":
                         position += tempcommand.Length + 1;
-                        string tempcommand2 = ReadTo(tempstr, position, ' ');
+                        string tempcommand2 = Utils.ReadTo(tempstr, position, ' ');
                         position += tempcommand2.Length + 1 + 1;
-                        string tempteam2 = ReadTo(tempstr, position, '\"');
-                        Console.WriteLine(tempteam2);
+                        string tempteam2 = Utils.ReadTo(tempstr, position, '\"');
+                        //Console.WriteLine(tempteam2);
                         break;
                 }
 

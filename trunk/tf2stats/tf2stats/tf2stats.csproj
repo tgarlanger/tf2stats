@@ -59,6 +59,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>tf2statsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Utils.cs" />
     <Content Include="tfstats.txt" />
   </ItemGroup>
   <ItemGroup>
