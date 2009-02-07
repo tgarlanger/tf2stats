@@ -7,6 +7,14 @@ using System.Text;
 namespace tf2stats.Objects
 {
     /// <summary>
+    /// Enum for Determing which field to search on
+    /// </summary>
+    enum SEARCH_VALUE
+    {
+        SEARCH_ID, SEARCH_NAME
+    }
+
+    /// <summary>
     /// User Class
     /// </summary>
     class User
