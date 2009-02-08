@@ -132,6 +132,13 @@ namespace tf2stats
 
                 User tempuser = Utils.ReadUser(tempstr, position);
 
+                int index = Utils.FindOrCreateUser(users, tempuser, numplayers);
+
+                if (index == numplayers)
+                {
+                    numplayers++;
+                }
+
                 switch (tempcommand)
                 {
                     case "say":
@@ -152,7 +159,7 @@ namespace tf2stats
                     case "killed":
                         position += tempcommand.Length + 1;
 
-                        if (Utils.Find(users, tempuser.UserName, SEARCH_VALUE.SEARCH_NAME) == -1)
+                        if (Utils.Find(users, tempuser.UserName, SEARCH_VALUE.SEARCH_NAME,numplayers) == -1)
                         {
 
                         }
