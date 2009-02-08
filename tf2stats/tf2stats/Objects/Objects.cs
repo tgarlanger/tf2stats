@@ -98,7 +98,7 @@ namespace tf2stats.Objects
             }
             set
             {
-                if (value != "Blue" || value != "Red")
+                if (value != "Blue" && value != "Red")
                 {
                     value = "Unassigned";
                 }
