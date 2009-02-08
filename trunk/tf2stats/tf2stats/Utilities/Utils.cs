@@ -51,12 +51,12 @@ namespace tf2stats.Utilities
         /// <param name="users">List of Users</param>
         /// <param name="steamid">Steam ID to Find</param>
         /// <returns>Index of Steam ID, -1 if Not Found</returns>
-        public static int Find(User[] users, string searchstr, SEARCH_VALUE sv)
+        public static int Find(User[] users, string searchstr, SEARCH_VALUE sv, int numplayers)
         {
             switch (sv)
             {
                 case SEARCH_VALUE.SEARCH_NAME:
-                    for (int i = 0; i < users.Length; i++)
+                    for (int i = 0; i < numplayers; i++)
                     {
                         if (users[i].UserName == searchstr)
                         {
@@ -66,7 +66,7 @@ namespace tf2stats.Utilities
                     break;
                 case SEARCH_VALUE.SEARCH_ID:
                 default:
-                    for (int i = 0; i < users.Length; i++)
+                    for (int i = 0; i < numplayers; i++)
                     {
                         if (users[i].SteamID == searchstr)
                         {
@@ -80,24 +80,68 @@ namespace tf2stats.Utilities
             return -1;
         }
 
+        /// <summary>
+        /// Finds a user or creates a new user in a list of users
+        /// </summary>
+        /// <param name="users">List of Users to search</param>
+        /// <param name="user">User to search for</param>
+        /// <param name="numplayers">Number of Users in the list</param>
+        /// <returns>Index of existing User or newly created User</returns>
         public static int FindOrCreateUser(User[] users, User user, int numplayers)
         {
-            int index = Find(users,user.UserName,SEARCH_VALUE.SEARCH_NAME);
+            int index = -1;
 
-            if (index == -1)
+            /// Is the Temporary Steam ID Pending?
+            if (user.SteamID == "STEAM_ID_PENDING")
             {
-                if (user.SteamID != "STEAM_ID_PENDING")
+                /// Yes
+                index = Find(users, user.UserName, SEARCH_VALUE.SEARCH_NAME, numplayers);
+            }
+            else
+            {
+                /// No
+                index = Find(users, user.SteamID, SEARCH_VALUE.SEARCH_ID, numplayers);
+            }
+
+            /// Was the User found?
+            if (index > -1)
+            {
+                /// YES!
+                /// 
+                /// Is the existing user's Steam ID Pending?
+                if (users[index].SteamID == "STEAM_ID_PENDING")
                 {
-                    index = Find(users, user.SteamID, SEARCH_VALUE.SEARCH_ID);
-
-                    if (index == -1)
+                    /// Yes
+                    /// 
+                    /// Is the temporary (new) user's Steam ID Pending?
+                    if (user.SteamID == "STEAM_ID_PENDING")
                     {
-                        users[numplayers] = user;
+                        /// Yes
+                        return index;
+                    }
+                    else
+                    {
+                        /// No
+                        users[index].SteamID = user.SteamID;
 
-                        return numplayers;
+                        return index;
                     }
                 }
+                else
+                {
+                    /// No
+                    return index;
+                }
             }
+            else
+            {
+                /// No
+                users[numplayers] = user;
+
+                index = numplayers;
+            }
+
+            return index;
         }
 
         /// <summary>
