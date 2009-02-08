@@ -139,6 +139,12 @@ namespace tf2stats
                     numplayers++;
                 }
 
+                position += tempuser.ToString().Length;
+
+                tempcommand = Utils.ReadTo(tempstr, position, ' ');
+
+                //Console.WriteLine("Command: " + tempcommand);
+
                 switch (tempcommand)
                 {
                     case "say":
@@ -153,7 +159,9 @@ namespace tf2stats
 
                         string tempteam2 = Utils.ReadTo(tempstr, position, '\"');
 
-                        //Console.WriteLine(tempteam2);
+                        users[index].Team = tempteam2;
+                        
+                        Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + tempcommand2 + " " + tempteam2 + '\n' );
 
                         break;
                     case "killed":
@@ -168,29 +176,6 @@ namespace tf2stats
 
                 //Console.WriteLine("break!");
 
-                /*
-                int index = Find(users, tempusername, SEARCH_VALUE.SEARCH_NAME);
-
-                if (index == -1)
-                {
-                    /// User was not found by name
-                    index = Find(users, tempsteamid, SEARCH_VALUE.SEARCH_ID);
-
-                    if (index == -1)
-                    {
-                        /// User was not found by STEAM_ID
-                        /// CREATE a NEW user:
-                        users[numplayers] = new User(tempusername, tempsteamid, tempteam, tempnumber);
-                    }
-                }
-                else
-                {
-                    if (users[index].SteamID == "STEAM_ID_PENDING" && tempsteamid != "STEAM_ID_PENDING")
-                    {
-
-                    }
-                }
-                 * */
             }// Read File
 
             Console.WriteLine("DONE!!!!");
