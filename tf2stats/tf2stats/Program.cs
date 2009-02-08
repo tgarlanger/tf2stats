@@ -18,12 +18,29 @@ namespace tf2stats
 {
     class Program
     {
+        #region GLOBAL_VARIABLES
+
+        /// <summary>
+        /// List of all 9 Roles
+        /// </summary>
         public static Role[] Roles = 
         {
             new Role("Demo"), new Role("Engineer"), new Role("Heavy"), 
             new Role("Medic"), new Role("Pyro"), new Role("Scout"),
             new Role("Sniper"), new Role("Soldier"), new Role("Spy")
         };
+
+        /// <summary>
+        /// List of All weapons used
+        /// </summary>
+        public static Weapon[] Weapons = new Weapon [3];
+
+        /// <summary>
+        /// The Number of weapons used
+        /// </summary>
+        public static int numweapons = 3;
+
+        #endregion
 
         /// <summary>
         /// Main Entry Point of the program
@@ -158,7 +175,6 @@ namespace tf2stats
                     /// Did someone say something?  Who cares...
                     case "say":
                         continue;
-                        break;
                     /// Someone Joined a team
                     case "joined":
                         /// Update Position in log line

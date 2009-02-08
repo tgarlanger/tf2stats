@@ -163,10 +163,19 @@ namespace tf2stats.Objects
         }
     }
 
+    /// <summary>
+    /// Role Class
+    /// </summary>
     class Role
     {
+        /// <summary>
+        /// Name of the Role
+        /// </summary>
         private string name;
 
+        /// <summary>
+        /// Gets or sets the name of the Role
+        /// </summary>
         public string Name
         {
             get
@@ -179,21 +188,38 @@ namespace tf2stats.Objects
             }
         }
 
+        /// <summary>
+        /// Paramaterized constructor
+        /// </summary>
+        /// <param name="newname">Value to set the Role name to</param>
         public Role(string newname)
         {
             name = newname;
         }
 
+        /// <summary>
+        /// Overrides the ToString function
+        /// </summary>
+        /// <returns>String representation of the Role, ie the name</returns>
         public override string ToString()
         {
             return Name;
         }
     }
 
+    /// <summary>
+    /// Weapon Class
+    /// </summary>
     class Weapon
     {
+        /// <summary>
+        /// Name of the Weapon
+        /// </summary>
         private string name;
 
+        /// <summary>
+        /// Gets or sets the name of the Weapon
+        /// </summary>
         public string Name
         {
             get
@@ -206,8 +232,14 @@ namespace tf2stats.Objects
             }
         }
 
+        /// <summary>
+        /// Role the Weapon belongs to
+        /// </summary>
         private string role;
 
+        /// <summary>
+        /// Gets or sets the Role the Weapon belongs to
+        /// </summary>
         public string Role
         {
             get
@@ -218,6 +250,15 @@ namespace tf2stats.Objects
             {
                 role = value;
             }
+        }
+
+        /// <summary>
+        /// Overrides the ToString Function
+        /// </summary>
+        /// <returns>String representation of the Weapon, ie the name</returns>
+        public override string ToString()
+        {
+            return name;
         }
     }
 }
