@@ -91,6 +91,7 @@ namespace tf2stats.Utilities
         {
             int index = -1;
 
+            /*
             /// Is the Temporary Steam ID Pending?
             if (user.SteamID == "STEAM_ID_PENDING")
             {
@@ -102,6 +103,8 @@ namespace tf2stats.Utilities
                 /// No
                 index = Find(users, user.SteamID, SEARCH_VALUE.SEARCH_ID, numplayers);
             }
+            */
+            index = Find(users, user.UserName, SEARCH_VALUE.SEARCH_NAME, numplayers);
 
             /// Was the User found?
             if (index > -1)
