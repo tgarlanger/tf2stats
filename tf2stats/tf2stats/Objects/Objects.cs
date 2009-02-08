@@ -162,4 +162,62 @@ namespace tf2stats.Objects
             return "\"" + username + "<" + number + "><" + steamid + "><" + team + ">\"";
         }
     }
+
+    class Role
+    {
+        private string name;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+
+        public Role(string newname)
+        {
+            name = newname;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
+    class Weapon
+    {
+        private string name;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+
+        private string role;
+
+        public string Role
+        {
+            get
+            {
+                return role;
+            }
+            set
+            {
+                role = value;
+            }
+        }
+    }
 }
