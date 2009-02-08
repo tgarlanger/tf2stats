@@ -189,7 +189,7 @@ namespace tf2stats.Utilities
             int position = start;
 
             /// GET USER NAME
-            tempusername = ReadTo(input, 26, '<');
+            tempusername = ReadTo(input, position, '<');
 
             position += tempusername.Length + 1;
 

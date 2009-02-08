@@ -18,6 +18,13 @@ namespace tf2stats
 {
     class Program
     {
+        public static Role[] Roles = 
+        {
+            new Role("Demo"), new Role("Engineer"), new Role("Heavy"), 
+            new Role("Medic"), new Role("Pyro"), new Role("Scout"),
+            new Role("Sniper"), new Role("Soldier"), new Role("Spy")
+        };
+
         /// <summary>
         /// Main Entry Point of the program
         /// </summary>
@@ -131,6 +138,7 @@ namespace tf2stats
                 position = 26;
 
                 User tempuser = Utils.ReadUser(tempstr, position);
+                User tempuser2 = new User();
 
                 int index = Utils.FindOrCreateUser(users, tempuser, numplayers);
 
@@ -147,30 +155,49 @@ namespace tf2stats
 
                 switch (tempcommand)
                 {
+                    /// Did someone say something?  Who cares...
                     case "say":
                         continue;
                         break;
+                    /// Someone Joined a team
                     case "joined":
+                        /// Update Position in log line
                         position += tempcommand.Length + 1;
 
+                        /// Read the secondary command: "team" in this case
                         string tempcommand2 = Utils.ReadTo(tempstr, position, ' ');
 
+                        /// Update position in log line
                         position += tempcommand2.Length + 1 + 1;
 
+                        /// Read Team name, surrounded by ""
                         string tempteam2 = Utils.ReadTo(tempstr, position, '\"');
 
+                        /// Assign user to team
                         users[index].Team = tempteam2;
                         
-                        Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + tempcommand2 + " " + tempteam2 + '\n' );
+                        /// Display Message about team assignment if in debug mode
+                        //Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + tempcommand2 + " " + tempteam2 + '\n' );
 
                         break;
+                    /// Someone Killed someone else
                     case "killed":
-                        position += tempcommand.Length + 1;
+                        /// Update Position in log line
+                        position += tempcommand.Length + 1 + 1;
 
-                        if (Utils.Find(users, tempuser.UserName, SEARCH_VALUE.SEARCH_NAME,numplayers) == -1)
-                        {
+                        /// Read the victim name
+                        tempuser2 = Utils.ReadUser(tempstr, position);
 
-                        }
+                        /// Find the victim in the user list
+                        int index_victim = Utils.FindOrCreateUser(users, tempuser2, numplayers);
+
+                        /// Update Kills
+                        users[index].Kills++;
+
+                        /// Update Victim Deaths
+                        users[index_victim].Deaths++;
+
+                        Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + users[index_victim].UserName + '\n');
                         break;
                 }
 
