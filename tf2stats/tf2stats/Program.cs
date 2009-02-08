@@ -159,7 +159,23 @@ namespace tf2stats
                 tempcommand = Utils.ReadTo(tempstr, position, ' ');
 
                 //Console.WriteLine("Command: " + tempcommand);
+                Console.WriteLine(tempcommand);
 
+                /*
+                 * All Commands:
+                 * 
+                 * changed
+                 * committed
+                 * connected,
+                 * disconnected
+                 * entered
+                 * joined
+                 * killed
+                 * say
+                 * say_team
+                 * STEAM
+                 * triggered
+                 */
                 switch (tempcommand)
                 {
                     /// Did someone say something?  Who cares...
@@ -218,7 +234,7 @@ namespace tf2stats
 
                         string temprole = Utils.ReadTo(tempstr, position, '"');
 
-                        Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " role to " + temprole + '\n');
+                        //Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " role to " + temprole + '\n');
 
                         users[index].UserRole = new Role(temprole);
 
