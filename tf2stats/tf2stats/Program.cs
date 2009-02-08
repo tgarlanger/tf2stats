@@ -21,16 +21,6 @@ namespace tf2stats
         #region GLOBAL_VARIABLES
 
         /// <summary>
-        /// List of all 9 Roles
-        /// </summary>
-        public static Role[] Roles = 
-        {
-            new Role("Demo"), new Role("Engineer"), new Role("Heavy"), 
-            new Role("Medic"), new Role("Pyro"), new Role("Scout"),
-            new Role("Sniper"), new Role("Soldier"), new Role("Spy")
-        };
-
-        /// <summary>
         /// List of All weapons used
         /// </summary>
         public static Weapon[] Weapons = new Weapon [3];
@@ -213,7 +203,25 @@ namespace tf2stats
                         /// Update Victim Deaths
                         users[index_victim].Deaths++;
 
-                        Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + users[index_victim].UserName + '\n');
+                        //Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + users[index_victim].UserName + '\n');
+                        break;
+                    case "changed":
+                        position += tempcommand.Length + 1;
+
+                        tempcommand2 = Utils.ReadTo(tempstr, position, ' ');
+
+                        position += tempcommand2.Length + 1;
+
+                        tempcommand2 = Utils.ReadTo(tempstr, position, ' ');
+
+                        position += tempcommand2.Length + 1 + 1;
+
+                        string temprole = Utils.ReadTo(tempstr, position, '"');
+
+                        Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " role to " + temprole + '\n');
+
+                        users[index].UserRole = new Role(temprole);
+
                         break;
                 }
 

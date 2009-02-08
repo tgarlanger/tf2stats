@@ -153,6 +153,20 @@ namespace tf2stats.Objects
             }
         }
 
+        private Role userrole;
+
+        public Role UserRole
+        {
+            get
+            {
+                return userrole;
+            }
+            set
+            {
+                userrole = value;
+            }
+        }
+
         /// <summary>
         /// Convert instance to a string
         /// </summary>
