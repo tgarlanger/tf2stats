@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -153,6 +154,8 @@ namespace tf2stats.Objects
             }
         }
 
+        private Role[] roles;
+
         private Role userrole;
 
         public Role UserRole
@@ -211,6 +214,20 @@ namespace tf2stats.Objects
             name = newname;
         }
 
+        private WeaponTable weapons;
+
+        public WeaponTable Weapons
+        {
+            get
+            {
+                return weapons;
+            }
+            set
+            {
+                weapons = value;
+            }
+        }
+
         /// <summary>
         /// Overrides the ToString function
         /// </summary>
@@ -246,23 +263,19 @@ namespace tf2stats.Objects
             }
         }
 
-        /// <summary>
-        /// Role the Weapon belongs to
-        /// </summary>
-        private string role;
+        private int kills;
 
-        /// <summary>
-        /// Gets or sets the Role the Weapon belongs to
-        /// </summary>
-        public string Role
+        private int deaths;
+
+        public int Deaths
         {
             get
             {
-                return role;
+                return deaths;
             }
             set
             {
-                role = value;
+                deaths = value;
             }
         }
 
@@ -273,6 +286,97 @@ namespace tf2stats.Objects
         public override string ToString()
         {
             return name;
+        }
+    }
+
+    class RoleTable
+    {
+        private Role[] roles;
+
+        public Role this[string index]
+        {
+            get
+            {
+                for ( int a = 0; a < 9; a++ )
+                {
+                    if (roles[a].Name == index)
+                    {
+                        return roles[a];
+                    }
+                }
+
+                throw new MissingFieldException();
+            }
+            set
+            {
+                bool flag = true;
+
+                for (int a = 0; a < 9; a++)
+                {
+                    if (roles[a].Name == index)
+                    {
+                        roles[a] = value;
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    throw new MissingFieldException();
+                }
+            }
+        }
+
+        public RoleTable()
+        {
+            roles = new Role[9];
+        }
+    }
+
+    class WeaponTable
+    {
+        private Weapon[] weapons;
+
+        public Weapon[] Weapons
+        {
+            get
+            {
+                return weapons;
+            }
+        }
+
+        private int numweapons;
+
+        public int NumWeapons
+        {
+            get
+            {
+                return numweapons;
+            }
+        }
+
+        public WeaponTable()
+        {
+            weapons = new Weapon[10];
+        }
+
+        public bool AddWeapon(Weapon w)
+        {
+            if (numweapons == 0)
+            {
+                weapons[0] = w;
+                return true;
+            }
+            for (int a = 0; a < numweapons; a++)
+            {
+                if (weapons[a].Name == w.Name)
+                {
+
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -38,18 +38,19 @@ namespace tf2stats
         /// <param name="args">Command Line Arugments</param>
         static void Main(string[] args)
         {
-            if (args.Length <= 1)
-            {
-                //Error(001);
-
-                //return;
-            }
-
             StreamReader sr = new StreamReader("..\\..\\Logs\\CTF_example.log");
             StreamWriter sw = new StreamWriter("output.txt");
 
+            bool debugmode = false;
+
             #region HANDLE_ARGS
             /*
+            if (args.Length <= 1)
+            {
+                Error(001);
+
+                return;
+            }
             for (int i = 1; i < args.Length; i++)
             {
                 switch (args[i])
@@ -180,6 +181,7 @@ namespace tf2stats
                 {
                     /// Did someone say something?  Who cares...
                     case "say":
+                    case "say_team":
                         continue;
                     /// Someone Joined a team
                     case "joined":
@@ -199,8 +201,10 @@ namespace tf2stats
                         users[index].Team = tempteam2;
                         
                         /// Display Message about team assignment if in debug mode
-                        //Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + tempcommand2 + " " + tempteam2 + '\n' );
-
+                        if (debugmode)
+                        {
+                            Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + tempcommand2 + " " + tempteam2 + '\n');
+                        }
                         break;
                     /// Someone Killed someone else
                     case "killed":
@@ -219,7 +223,10 @@ namespace tf2stats
                         /// Update Victim Deaths
                         users[index_victim].Deaths++;
 
-                        //Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + users[index_victim].UserName + '\n');
+                        if (debugmode)
+                        {
+                            Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " " + users[index_victim].UserName + '\n');
+                        }
                         break;
                     case "changed":
                         position += tempcommand.Length + 1;
@@ -234,7 +241,10 @@ namespace tf2stats
 
                         string temprole = Utils.ReadTo(tempstr, position, '"');
 
-                        //Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " role to " + temprole + '\n');
+                        if (debugmode)
+                        {
+                            Console.WriteLine("User " + index + ": " + users[index].UserName + " " + tempcommand + " role to " + temprole + '\n');
+                        }
 
                         users[index].UserRole = new Role(temprole);
 
