@@ -15,6 +15,11 @@ namespace tf2stats.Objects
         SEARCH_ID, SEARCH_NAME
     }
 
+    enum ADD_RESPONSE
+    {
+        ADDED, ESISTS, ERROR
+    }
+
     /// <summary>
     /// User Class
     /// </summary>
@@ -361,22 +366,29 @@ namespace tf2stats.Objects
             weapons = new Weapon[10];
         }
 
-        public bool AddWeapon(Weapon w)
+        public ADD_RESPONSE AddWeapon(Weapon w)
         {
             if (numweapons == 0)
             {
                 weapons[0] = w;
-                return true;
+
+                numweapons++;
+
+                return ADD_RESPONSE.ADDED;
             }
             for (int a = 0; a < numweapons; a++)
             {
                 if (weapons[a].Name == w.Name)
                 {
-
+                    return ADD_RESPONSE.ESISTS;
                 }
             }
 
-            return false;
+            weapons[numweapons] = w;
+
+            numweapons++;
+
+            return ADD_RESPONSE.ADDED;
         }
     }
 }
